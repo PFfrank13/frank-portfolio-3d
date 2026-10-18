@@ -37,7 +37,8 @@ export default function Profile() {
 
         <div className="mt-14 grid gap-14 lg:mt-24 lg:grid-cols-12 lg:gap-x-16">
           <aside className="lg:col-span-4 lg:self-start lg:sticky lg:top-24">
-            <div ref={pic} className="overflow-hidden" style={{ width: 'min(100%, 288px)' }}>
+            <div className="pf-frame" style={{ width: 'min(100%, 288px)' }}>
+            <div ref={pic} className="overflow-hidden" style={{ width: '100%' }}>
             <motion.img
               src={portrait}
               width={227}
@@ -46,6 +47,8 @@ export default function Profile() {
               className="mix-blend-multiply"
               style={still ? { width: '100%', height: 'auto' } : { width: '100%', height: 'auto', y: py, scale: sc }}
             />
+            </div>
+            <span className="pf-chip" aria-hidden><i />Disponible</span>
             </div>
             <dl className="m-0 mt-8 max-w-[288px]">
               {facts.map(([k, v]) => (

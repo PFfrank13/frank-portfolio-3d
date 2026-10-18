@@ -4,6 +4,7 @@ import { ADMIN_EMAIL, LIMITS, SUPABASE_KEY, SUPABASE_URL } from '../config.js';
 import { SETTINGS_DEFAULTS } from '../profile.js';
 import { compressImage } from '../images.js';
 import { fileExt, ORDER, sanitizeComment, sanitizeMessage, uid } from './common.js';
+import { withCoversByTitle, withCertImagesByTitle, stripBundled } from './covers.js';
 
 export function createSupabaseStore() {
   const client = createClient(SUPABASE_URL, SUPABASE_KEY, {
@@ -48,17 +49,21 @@ export function createSupabaseStore() {
     async list(table) {
       const { data, error } = await client.from(table).select('*');
       fail(error);
-      return (data || []).sort(ORDER[table]);
+      const rows = (data || []).sort(ORDER[table]);
+      // Los proyectos y certificados de ejemplo traen su portada incluida en el código (hasta que subas una propia).
+      if (table === 'projects') return withCoversByTitle(rows);
+      if (table === 'certificates') return withCertImagesByTitle(rows);
+      return rows;
     },
 
     async insert(table, row) {
-      const { data, error } = await client.from(table).insert(row).select().single();
+      const { data, error } = await client.from(table).insert(stripBundled(row)).select().single();
       fail(error);
       return data;
     },
 
     async update(table, id, patch) {
-      const { data, error } = await client.from(table).update(patch).eq('id', id).select().single();
+      const { data, error } = await client.from(table).update(stripBundled(patch)).eq('id', id).select().single();
       fail(error);
       return data;
     },

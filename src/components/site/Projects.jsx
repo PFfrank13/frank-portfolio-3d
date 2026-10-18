@@ -61,6 +61,7 @@ const CSS = `
 .pj-open:hover .pj-chips .chip:nth-child(2){transform:translateY(-2px)}
 .pj-open:hover .pj-chips .chip:nth-child(3){transform:translateY(-3px)}
 .pj-open:hover .pj-chips .chip:nth-child(4){transform:translateY(-2px)}
+.pj-media .sb-pat-cat{display:none}
 @media(max-width:1023px){.pj-chapter{position:relative;top:auto}.pj-big{font-size:8rem}}
 @media(hover:none){.pj-cta{transform:none;opacity:1;position:static;margin:14px 0 0}.pj-corner{display:none}}
 @media(prefers-reduced-motion:reduce){.pj-fx,.pj-card:hover{transform:none!important}.pj-open:hover .pj-media::after{animation:none}}
