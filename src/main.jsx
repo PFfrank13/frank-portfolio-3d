@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './styles/index.css';
+import { installGuard } from './lib/guard.js';
 
 /** Último recurso: si algo falla de forma inesperada, mostramos un mensaje en vez de pantalla en blanco. */
 class RootBoundary extends React.Component {
@@ -36,4 +37,5 @@ createRoot(document.getElementById('root')).render(
   </React.StrictMode>
 );
 
+if (import.meta.env.PROD) installGuard(); // en desarrollo (npm run dev) queda libre para poder depurar
 window.__APP_MOUNTED__ = true;

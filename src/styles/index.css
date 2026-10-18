@@ -501,3 +501,9 @@ html{scrollbar-width:thin;scrollbar-color:#3a3c41 var(--bg)}
 #inicio .fx-aurora i{transition:translate .6s var(--ease)}
 .fx-rain{animation-timing-function:cubic-bezier(.3,.1,.5,1)!important}
 .fx-ring{transition:width .3s var(--ease),height .3s var(--ease),border-radius .3s var(--ease),background .25s,border-color .25s,opacity .25s}
+
+/* Sin selección de texto ni arrastre de imágenes; los campos de formulario sí se pueden usar */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select,[contenteditable="true"],[data-allow-select]{-webkit-user-select:text;user-select:text}
+img,svg,canvas,video{-webkit-user-drag:none;user-drag:none}
+html[data-admin] body{-webkit-user-select:text;user-select:text}

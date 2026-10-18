@@ -143,6 +143,13 @@ revoke all on function public.like_comment(uuid) from public;
 grant execute on function public.like_comment(uuid) to anon, authenticated;
 
 -- ───────────── Row Level Security ─────────────
+-- Permisos de la API de datos (necesarios si "Automatically expose new tables" está desactivado).
+-- La seguridad real la ponen las políticas RLS de abajo; estos permisos solo dejan que lleguen a evaluarse.
+grant usage on schema public to anon, authenticated;
+grant select on public.settings, public.projects, public.tools, public.certificates, public.comments to anon, authenticated;
+grant insert on public.comments, public.messages to anon, authenticated;
+grant select, insert, update, delete on public.settings, public.projects, public.tools, public.certificates, public.comments, public.messages to authenticated;
+
 alter table public.settings     enable row level security;
 alter table public.projects     enable row level security;
 alter table public.tools        enable row level security;

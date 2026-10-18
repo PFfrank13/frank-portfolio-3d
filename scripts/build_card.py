@@ -54,6 +54,19 @@ def b64(path):
     return base64.b64encode(open(path, 'rb').read()).decode()
 
 
+def photo_b64():
+    """La foto original es pequeña (227x314): se reescala con Lanczos y se afina para que no se vea borrosa en el carné."""
+    from PIL import ImageFilter
+
+    im = Image.open(PHOTO).convert('RGB')
+    im = im.resize((im.width * 4, im.height * 4), Image.LANCZOS)
+    im = im.filter(ImageFilter.UnsharpMask(radius=3.2, percent=130, threshold=2))
+    im = im.filter(ImageFilter.UnsharpMask(radius=1.1, percent=70, threshold=2))
+    buf = io.BytesIO()
+    im.save(buf, 'PNG', optimize=True)
+    return base64.b64encode(buf.getvalue()).decode()
+
+
 def font_css():
     f = lambda name: b64(os.path.join(FONTS, name))
     return f"""
@@ -101,7 +114,7 @@ html,body{{width:{W}px;height:{H}px;background:#0c0d0e;overflow:hidden}}
 .avail i{{width:16px;height:16px;border-radius:50%;background:#3a9b5f}}
 </style>
 <div class="panel front"><div class="edge"></div>
-  <div class="photo"><img src="data:image/png;base64,{b64(PHOTO)}"></div>
+  <div class="photo"><img src="data:image/png;base64,{photo_b64()}"></div>
   <div class="name">{d['short']}</div>
   <div class="role">{d['role']}</div><div class="rule"></div>
   <div class="foot"><span>{d['city']}</span><span>{d['github']}</span></div>

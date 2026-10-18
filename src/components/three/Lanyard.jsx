@@ -473,7 +473,7 @@ export default function Lanyard({ className = '', full = false }) {
             eventSource={full ? src : undefined}
             eventPrefix={full ? 'client' : undefined}
             frameloop={visible ? 'always' : 'never'}
-            dpr={[1, coarse ? 1.5 : 1.75]}
+            dpr={[1.5, coarse ? 2 : 2.5]}
             gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
             camera={{ position: [0, 0, 10], fov: 25 }}
             onCreated={(state) => {
