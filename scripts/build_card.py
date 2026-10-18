@@ -165,12 +165,14 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     with sync_playwright() as p:
         browser = p.chromium.launch()
-        page = browser.new_page(device_scale_factor=1)
+        # El atlas se renderiza al doble (4096 px) para que el texto y el QR queden nítidos incluso con el carné grande.
+        page = browser.new_page(device_scale_factor=2)
         raw = os.path.join(tempfile.gettempdir(), 'atlas_raw.png')
         shot(page, atlas_html(), raw, W, H)
+        page = browser.new_page(device_scale_factor=1)
         shot(page, strap_html(), os.path.join(OUT, 'strap.png'), 1536, 512)
         browser.close()
-    Image.open(raw).convert('RGB').save(os.path.join(OUT, 'atlas.jpg'), quality=90, optimize=True, progressive=True)
+    Image.open(raw).convert('RGB').save(os.path.join(OUT, 'atlas.jpg'), quality=88, optimize=True, progressive=True, subsampling=0)
     for name in ('atlas.jpg', 'strap.png'):
         print(name, os.path.getsize(os.path.join(OUT, name)) // 1024, 'KB')
 

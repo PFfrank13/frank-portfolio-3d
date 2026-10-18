@@ -132,7 +132,7 @@ function Band({ visible, reduced, onGrab, nudgeRef, onReady, flipTick, onSide, o
     c.curveType = 'chordal'; // 'centripetal' da NaN con puntos coincidentes en los primeros cuadros
     return c;
   });
-  const [steel] = useState(() => new THREE.MeshStandardMaterial({ color: '#9a9a95', metalness: 1, roughness: 0.34 }));
+  const [steel] = useState(() => new THREE.MeshStandardMaterial({ color: '#b4b4ae', metalness: 1, roughness: 0.3 }));
   const [kin, setKin] = useState(false); // cuerpos cinemáticos mientras se arrastra o vuelve
   const [hovered, hover] = useState(false);
 
@@ -225,7 +225,7 @@ function Band({ visible, reduced, onGrab, nudgeRef, onReady, flipTick, onSide, o
     const dy = jy - tmp.anchor.y;
     const slack = Math.max(0, MAX_REACH - Math.hypot(dx, dy));
     [j1, j2, j3].forEach((r, i) => {
-      const t = (i + 1) / 4;
+      const t = (i + 1) / 3; // el último nodo queda en el enganche del carné: la cinta llega siempre hasta él
       r.current?.setNextKinematicTranslation({ x: tmp.anchor.x + dx * t, y: tmp.anchor.y + dy * t - Math.sin(Math.PI * t) * slack * 0.45, z: 0 });
     });
   };
@@ -384,7 +384,7 @@ function Band({ visible, reduced, onGrab, nudgeRef, onReady, flipTick, onSide, o
             }}
           >
             <mesh ref={face} geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial map={atlas} side={THREE.DoubleSide} roughness={0.5} metalness={0.05} clearcoat={0.5} clearcoatRoughness={0.25} envMapIntensity={0.4} />
+              <meshPhysicalMaterial map={atlas} side={THREE.DoubleSide} roughness={0.7} metalness={0} clearcoat={0.15} clearcoatRoughness={0.45} />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={steel} />
             <mesh geometry={nodes.clamp.geometry} material={steel} />
@@ -402,8 +402,8 @@ function Band({ visible, reduced, onGrab, nudgeRef, onReady, flipTick, onSide, o
 function Lights() {
   return (
     <>
-      <ambientLight intensity={Math.PI * 0.3} />
-      <Environment blur={0.75}>
+      <ambientLight intensity={Math.PI * 0.22} />
+      <Environment blur={0.75} environmentIntensity={0.5}>
         <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
         <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
         <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
