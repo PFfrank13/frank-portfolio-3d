@@ -26,7 +26,7 @@ export function Burst() {
 const fine = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const calm = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HOT = 'a, button, [role="button"], summary, input, textarea, select, label[for]';
-const REVEAL = '.pj-media, .st-tool, .pj-chapter, main li.fx-li, .fb-sec dl > div, .fx-up, main article';
+const REVEAL = '.pj-media, .st-tool, .pj-chapter, main li.fx-li, .fb-sec dl > div, .fx-up, main article:not(.pj-card)';
 const LABELS = [['.pj-chapter', 'Abrir'], ['.st-tool', 'Ver'], ['[data-cursor]', null]];
 const SPOT = '.pj-chapter, .st-tool, .st-panel, .fx-spot';
 

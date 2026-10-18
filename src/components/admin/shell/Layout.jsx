@@ -83,6 +83,27 @@ export default function Layout({ page, title, children }) {
     window.scrollTo(0, 0);
   }, [page]);
 
+  // Foco dorado que sigue al cursor sobre tarjetas y filas del panel (solo con ratón).
+  useEffect(() => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+    let raf = 0;
+    const move = (e) => {
+      const el = e.target instanceof Element ? e.target.closest('.adm-shell .surface') : null;
+      if (!el) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        el.style.setProperty('--my', `${e.clientY - r.top}px`);
+      });
+    };
+    document.addEventListener('pointermove', move, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener('pointermove', move);
+    };
+  }, []);
+
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (e) => e.key === 'Escape' && setOpen(false);
